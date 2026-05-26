@@ -14,37 +14,37 @@ def getdb():
 
 def uindex(request):
     try:
-        rsel = "select * from feedback_tb where f_status = 'Active' order by f_id desc"
         mydb = getdb()
         mycursor = mydb.cursor(dictionary=True)
-        mycursor.execute(rsel)
+
+        mycursor.execute("select * from feedback_tb where f_status='Active' order by f_id desc")
         f_data = mycursor.fetchall()
 
-        sel = "select * from category_tb where cat_status = 'Active' order by cat_id desc"
-        mydb = getdb()
-        mycursor = mydb.cursor(dictionary=True)
-        mycursor.execute(sel)
+        mycursor.execute("select * from category_tb where cat_status='Active' order by cat_id desc")
         cat_data = mycursor.fetchall()
 
-        psel = "select product_tb.*,category_tb.*,ROUND(((product_tb.p_mrp - product_tb.p_price) / product_tb.p_mrp) * 100 ,1) AS discount from product_tb,category_tb where category_tb.cat_id = product_tb.cat_id and p_status = 'Active' order by RAND() LIMIT 8"
-        mydb = getdb()
-        mycursor = mydb.cursor(dictionary=True) 
-        mycursor.execute(psel)
+        mycursor.execute("""
+            select product_tb.*, category_tb.*,
+            ROUND(((product_tb.p_mrp - product_tb.p_price) / product_tb.p_mrp) * 100 ,1) AS discount
+            from product_tb, category_tb
+            where category_tb.cat_id = product_tb.cat_id
+            and p_status='Active'
+            order by RAND()
+            LIMIT 8
+        """)
         p_data = mycursor.fetchall()
 
         alldata = {
-            'cat_data':cat_data,
-            'p_data':p_data,
-            'f_data':f_data
+            'cat_data': cat_data,
+            'p_data': p_data,
+            'f_data': f_data
         }
 
-        return render(request,'uindex.html',alldata)
-    except NameError:
-        print("internal error")
-    except:
-        print('Error returned')
+        return render(request, 'uindex.html', alldata)
 
-
+    except Exception as e:
+        print("ERROR:", e)
+        return HttpResponse("Internal Server Error")
 
 def uterms(request):
     try:

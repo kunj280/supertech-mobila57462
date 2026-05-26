@@ -1,1 +1,1 @@
-web: gunicorn supertechmobile.wsgi
+web: gunicorn supertechmobila.wsgi:application
