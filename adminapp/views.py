@@ -4,11 +4,19 @@ from django.shortcuts import redirect
 from django.core.files.storage import FileSystemStorage
 import mysql.connector
 import datetime
+import os
 
 def getdb():
-    mydb = mysql.connector.connect(host="localhost",user="root",password="",database="mobila_db")
+    mydb = mysql.connector.connect(
+        host=os.environ.get("AIVEN_MYSQL_HOST", "localhost"),
+        port=int(os.environ.get("AIVEN_MYSQL_PORT", "3306")),
+        user=os.environ.get("AIVEN_MYSQL_USER", "root"),
+        password=os.environ.get("AIVEN_MYSQL_PASSWORD", ""),
+        database=os.environ.get("AIVEN_MYSQL_DATABASE", "mobila_db"),
+        ssl_disabled=False if os.environ.get("AIVEN_MYSQL_HOST") else True,
+        connection_timeout=15,
+    )
     return mydb
-
 def index(request):
     try:
 

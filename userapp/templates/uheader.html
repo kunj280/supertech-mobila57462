@@ -1,4 +1,14 @@
-{% load static %}
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    {% load static %}
+    {% include 'uhead.html' %}
+</head>
+
+
+<body class="sticky-header newsletter-popup-modal">
+
 
 <div class="header-top-campaign">
             <div class="container position-relative">
@@ -41,10 +51,7 @@
                                 <li><a href="usignup?verify=number">Sign Up</a></li>
                                 <li><a href="usignin">Sign In</a></li>
                                 <li><a href="uproduct">Product</a></li>
-                                
-                                
                                 <li><a href="uabout">About Us</a></li>
-                                
                                 <li><a href="ucontact">Contact Us</a></li>
                             </ul>
                             {% else %}
@@ -60,6 +67,11 @@
                                 <li><a href="uabout">About Us</a></li>
                                 
                                 <li><a href="ucontact">Contact Us</a></li>
+                                <li>
+                                 <a href="addwishlist?p_id={{row.p_id}}">
+                                 <i class="flaticon-heart"></i>
+                                    </a>
+                                </li>
                                 <li><a href="ulogout">Logout</a></li>
                             </ul>
                             {% endif %}
@@ -91,4 +103,26 @@
                 </div>
             </div>
         </div>
-        <!-- End Mainmenu Area -->
+        <style>
+            .wishlist-icon i{
+    font-size: 30px;          /* Icon size */
+    color: #333;
+    transition: all 0.3s ease;
+}
+
+.wishlist-icon:hover i{
+    color: #ff3b5c;           /* Hover color */
+    transform: scale(1.3);    /* Increase size on hover */
+}
+i[class^="flaticon-"]:before, i[class*=" flaticon-"]:before {
+    font-family: flaticon !important;
+    font-style: normal;
+    font-weight: normal !important;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;}
+</style>
+</body>
+</html>

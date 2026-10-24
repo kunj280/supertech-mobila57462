@@ -7,11 +7,19 @@ import datetime
 import random
 import requests
 from django.http import JsonResponse
+import os
 
 def getdb():
-    mydb = mysql.connector.connect(host="localhost",user="root",password="",database="mobila_db")
+    mydb = mysql.connector.connect(
+        host=os.environ.get("AIVEN_MYSQL_HOST", "localhost"),
+        port=int(os.environ.get("AIVEN_MYSQL_PORT", "3306")),
+        user=os.environ.get("AIVEN_MYSQL_USER", "root"),
+        password=os.environ.get("AIVEN_MYSQL_PASSWORD", ""),
+        database=os.environ.get("AIVEN_MYSQL_DATABASE", "mobila_db"),
+        ssl_disabled=not bool(os.environ.get("AIVEN_MYSQL_HOST")),
+        connection_timeout=15,
+    )
     return mydb
-
 def uindex(request):
     try:
         mydb = getdb()
@@ -117,7 +125,6 @@ def usignup(request):
                     mtype = "OTP"
                     request.session['otp'] = otp
                     request.session['contact'] = u_contact
-
                     sms_url = f"https://invisionsoftwaresolution.in/Student/isssmssend.php?contact={u_contact}&message={otp}&type={mtype}"
                     response = requests.post(sms_url)
                     return redirect('/usignup?verify=otp')

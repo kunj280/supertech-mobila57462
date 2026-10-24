@@ -1,0 +1,38 @@
+
+# Python cache files
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Secrets
+.env
+.env.*
+
+# Local databases and backups
+db.sqlite3
+*.sqlite3
+*.sqlite3.backup
+*.sql
+*.json.backup
+data-backup.json
+mobila_db_backup*
+mobila_db.sql
+check_aiven.py
+import_aiven.py
+test_aiven.py
+check_data.py
+make_backup.py
+
+# Generated static files
+staticfiles/
+
+# Editor settings
+.vscode/
+
+# Logs
+*.log
